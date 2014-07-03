@@ -1,47 +1,47 @@
 package com.ratuvog.gameoflife;
 
 import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.view.View;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
 
-import java.util.ArrayList;
+public class World extends SurfaceView implements SurfaceHolder.Callback {
 
-public class World extends View {
-
-    public int capacity = 1000;
-    public ArrayList<Life> citizens;
+    private DrawThread thread;
 
     public World(Context context) {
         super(context);
-        initCitizens();
+        getHolder().addCallback(this);
     }
-    
+
     public World(Context context, AttributeSet as) {
         super(context, as);
-        initCitizens();
+        getHolder().addCallback(this);
     }
 
-    public World(Context context, AttributeSet as, int shlyapa) {
-        super(context, as, shlyapa);
-        initCitizens();
+    @Override
+    public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        thread = new DrawThread(getHolder(), new WorldDrawer());
+        thread.setRunning(true);
+        thread.start();
+
     }
 
-    private void initCitizens() {
-        citizens = new ArrayList<Life>();
-        for (int i = 0; i < capacity; ++i) {
-            citizens.add(Life.randomLife(new Size(getWidth(), getHeight())));
-        }
+    @Override
+    public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i2, int i3) {
+
     }
 
-    protected void onDraw(Canvas canvas) {
-        Paint p = new Paint();
-        p.setAntiAlias(true);
-
-        for (Life l : citizens) {
-            p.setColor(l.color);
-            canvas.drawCircle(50, 50, 10, p);
+    @Override
+    public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        boolean retry = true;
+        thread.setRunning(false);
+        while (retry) {
+            try {
+                thread.join();
+                retry = false;
+            } catch (InterruptedException e) {
+            }
         }
     }
 }

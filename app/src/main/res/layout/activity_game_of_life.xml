@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         class="com.ratuvog.gameoflife.World"
         android:id="@+id/view"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true" />
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

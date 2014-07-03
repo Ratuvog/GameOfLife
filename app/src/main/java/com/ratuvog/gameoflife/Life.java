@@ -1,21 +1,19 @@
 package com.ratuvog.gameoflife;
 
 public class Life {
-     public int x;
-     public int y;
      public int color;
+     public boolean dead;
+     public int size = 20;
 
-    public Life() {
-        y = 0;
-        x = 0;
-        color = 0x0;
+    public Life(boolean dead) {
+        color = 0xff000099;
+        this.dead = dead;
     }
 
-    static public Life randomLife(Size worldSize) {
-        Life l = new Life();
-        l.x = (int)(Math.random() * (double)worldSize.w);
-        l.y = (int)(Math.random() * (double)worldSize.h);
-        l.color = (int)(Math.random() * 0xffffffff);
+    static public Life randomLife() {
+        Life l = new Life(true);
+        //l.color = (int)(Math.random() * (float)0xffffff) + 0xff000000;
+        l.dead = (int)(Math.random() * (float)1000) % 41 == 0;
         return l;
     }
 }

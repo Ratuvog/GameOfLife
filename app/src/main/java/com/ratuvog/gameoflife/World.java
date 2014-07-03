@@ -10,6 +10,7 @@ import android.view.View;
 public class World extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread thread;
+    private GameBoard board;
 
     public World(Context context) {
         super(context);
@@ -30,7 +31,7 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        thread = new DrawThread(getHolder(), new WorldDrawer());
+        thread = new DrawThread(getHolder(), new DraftWorldDrawer(board));
         thread.setRunning(true);
         thread.start();
 

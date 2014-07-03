@@ -13,7 +13,6 @@ public class WorldDrawer extends Drawer {
     private int rowCount = 480/15;
     private int columnCount = 720/15;
     private ArrayList<ArrayList<Life>> world;
-    private int frame = 1;
 
     public WorldDrawer() {
         initialize();
@@ -35,6 +34,8 @@ public class WorldDrawer extends Drawer {
         dir.add(new Pair<Integer,Integer>(12, 10));
         dir.add(new Pair<Integer,Integer>(12, 11));
         dir.add(new Pair<Integer,Integer>(12, 12));
+        dir.add(new Pair<Integer,Integer>(13, 11));
+        dir.add(new Pair<Integer,Integer>(14, 11));
 
         for(Pair<Integer,Integer> d : dir) {
             world.get(d.first).get(d.second).dead = false;
@@ -55,18 +56,26 @@ public class WorldDrawer extends Drawer {
                 canvas.drawRect(i * l.size, j * l.size, i * l.size + l.size, j * l.size + l.size, p);
             }
         }
-        if (frame % 50 == 0) {
-            gameProcess();
-        }
-        frame++;
+        gameProcess();
     }
 
     private void gameProcess() {
-        ArrayList<ArrayList<Life>> newWorld = world;
+        ArrayList<ArrayList<Life>> newWorld = new ArrayList<ArrayList<Life>>();
+        for (int i = 0; i < rowCount; ++i) {
+            ArrayList<Life> row = new ArrayList<Life>();
+            for (int j = 0; j < columnCount; ++j) {
+                row.add(new Life(true));
+            }
+            newWorld.add(row);
+        }
+
         for (int i = 0; i < rowCount; ++i) {
             for (int j = 0; j < columnCount; ++j) {
                 int alive = aliveNeighbourCount(i, j);
-                newWorld.get(i).get(j).dead = !(alive >= 2 && alive <= 3);
+                if (world.get(i).get(j).dead)
+                    newWorld.get(i).get(j).dead = alive != 3;
+                else
+                    newWorld.get(i).get(j).dead = alive < 2 || alive > 3;
             }
         }
         world = newWorld;
@@ -85,11 +94,10 @@ public class WorldDrawer extends Drawer {
         dir.add(new Pair<Integer,Integer>(-1, -1));
 
         for(Pair<Integer,Integer> d : dir) {
-            if (i + d.first >= 0 && i + d.first < rowCount &&
-                    j + d.second >= 0 && j + d.second < columnCount) {
-                if (!world.get(i+d.first).get(j+d.second).dead)
-                    count++;
-            }
+            int dx = ((j + d.first) % columnCount + columnCount) % columnCount;
+            int dy = ((i + d.second) % rowCount + rowCount) % rowCount;
+            if (!world.get(dy).get(dx).dead)
+                count++;
         }
         return count;
     }

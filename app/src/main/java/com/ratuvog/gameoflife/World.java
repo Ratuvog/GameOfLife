@@ -2,8 +2,10 @@ package com.ratuvog.gameoflife;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 public class World extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -17,6 +19,13 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
     public World(Context context, AttributeSet as) {
         super(context, as);
         getHolder().addCallback(this);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        MotionEvent.PointerCoords coords = new MotionEvent.PointerCoords();
+        event.getPointerCoords(0, coords);
+        return true;
     }
 
     @Override

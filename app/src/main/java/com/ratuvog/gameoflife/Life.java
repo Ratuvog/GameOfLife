@@ -3,7 +3,7 @@ package com.ratuvog.gameoflife;
 public class Life {
      public int color;
      public boolean dead;
-     public int size = 20;
+     public int size = 30;
 
     public Life(boolean dead) {
         color = 0xff000099;

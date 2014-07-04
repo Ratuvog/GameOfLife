@@ -1,40 +1,63 @@
 package com.ratuvog.gameoflife;
 
 import android.content.Context;
+import android.graphics.Point;
 import android.util.AttributeSet;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.View;
+import android.view.WindowManager;
 
 public class World extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread thread;
     private GameBoard board;
+    private GameState currentState;
+
+    private void initialize(Context context)
+    {
+        getHolder().addCallback(this);
+
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display d = wm.getDefaultDisplay();
+        Point p = new Point();
+        d.getSize(p);
+        Size s = new Size(p.x, p.y);
+        board = new GameBoard(s);
+
+        currentState = new DraftGameState(board);
+    }
 
     public World(Context context) {
         super(context);
-        getHolder().addCallback(this);
+        initialize(context);
     }
 
     public World(Context context, AttributeSet as) {
         super(context, as);
-        getHolder().addCallback(this);
+        initialize(context);
+    }
+
+    public void setState(int state) {
+        currentState = currentState.moveToState(state);
+        Drawer d = currentState.getDrawer();
+        if (d != null) thread.setDrawer(currentState.getDrawer());
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         MotionEvent.PointerCoords coords = new MotionEvent.PointerCoords();
         event.getPointerCoords(0, coords);
+        currentState.onTouch(coords.x, coords.y);
         return true;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        thread = new DrawThread(getHolder(), new DraftWorldDrawer(board));
+        thread = new DrawThread(getHolder(), currentState.getDrawer());
         thread.setRunning(true);
         thread.start();
-
     }
 
     @Override

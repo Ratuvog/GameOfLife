@@ -18,6 +18,8 @@ public class DrawThread extends Thread {
         this.running = running;
     }
 
+    public void setDrawer(Drawer drawer) { this.drawer = drawer; }
+
     public void run() {
         Canvas canvas;
         while (running) {

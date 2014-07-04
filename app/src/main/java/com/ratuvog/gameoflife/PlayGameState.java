@@ -19,8 +19,11 @@ public class PlayGameState extends GameState {
     }
 
     @Override
-    public void onTouch(float x, float y) {
+    public void onTouch(float x, float y) { }
 
+    @Override
+    public String message() {
+        return "Life is started!";
     }
 
 }

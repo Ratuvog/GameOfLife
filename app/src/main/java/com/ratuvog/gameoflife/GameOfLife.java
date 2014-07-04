@@ -32,7 +32,10 @@ public class GameOfLife extends Activity {
             }
         });
 
-    }
+        ScoreBoard score = (ScoreBoard)findViewById(R.id.score);
+        World w = (World)findViewById(R.id.scene);
+        score.setGameBoard(w.game());
+     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

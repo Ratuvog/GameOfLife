@@ -1,8 +1,5 @@
 package com.ratuvog.gameoflife;
 
-/**
- * Created by ratuvog on 04.07.14.
- */
 public class DraftGameState extends GameState {
     public DraftGameState(GameBoard board) {
         super(board);
@@ -25,5 +22,10 @@ public class DraftGameState extends GameState {
     @Override
     public void onTouch(float x, float y) {
         board.reanimate(x, y);
+    }
+
+    @Override
+    public String message() {
+        return "Draw something";
     }
 }

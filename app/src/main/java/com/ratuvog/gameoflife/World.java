@@ -8,6 +8,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class World extends SurfaceView implements SurfaceHolder.Callback {
 
@@ -29,20 +30,21 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
         currentState = new DraftGameState(board);
     }
 
-    public World(Context context) {
-        super(context);
-        initialize(context);
-    }
-
     public World(Context context, AttributeSet as) {
         super(context, as);
         initialize(context);
     }
 
+    public GameBoard game() {
+        return board;
+    }
+
     public void setState(int state) {
         stopDraw();
-        thread.setDrawer(null);
+
         currentState = currentState.moveToState(state);
+        Toast.makeText(getContext(), currentState.message(), Toast.LENGTH_LONG).show();
+
         thread = new DrawThread(getHolder(), currentState.getDrawer());
         thread.setRunning(true);
         thread.start();
@@ -85,3 +87,4 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
         }
     }
 }
+

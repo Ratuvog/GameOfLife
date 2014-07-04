@@ -10,6 +10,7 @@ public class DraftWorldDrawer extends Drawer {
 
     public DraftWorldDrawer(GameBoard board) {
         this.board = board;
+
     }
 
     public void drawBoard(Canvas canvas) {
@@ -21,8 +22,8 @@ public class DraftWorldDrawer extends Drawer {
                 Life l = board.get(i,j);
                 if (l.dead) continue;
                 p.setColor(l.color);
-                canvas.drawRect(i * l.LIFE_SIZE, j * l.LIFE_SIZE,
-                                (i+1) * l.LIFE_SIZE , (j+1) * l.LIFE_SIZE, p);
+                canvas.drawRect(i * Life.LIFE_SIZE, j * Life.LIFE_SIZE,
+                                (i+1) * Life.LIFE_SIZE , (j+1) * Life.LIFE_SIZE, p);
             }
         }
     }

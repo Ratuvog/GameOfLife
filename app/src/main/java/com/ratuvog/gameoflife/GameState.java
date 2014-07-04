@@ -21,4 +21,8 @@ public class GameState {
     public void onTouch(float x, float y) {
 
     }
+
+    public String message() {
+        return null;
+    }
 }

@@ -40,9 +40,12 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
     }
 
     public void setState(int state) {
+        stopDraw();
+        thread.setDrawer(null);
         currentState = currentState.moveToState(state);
-        Drawer d = currentState.getDrawer();
-        if (d != null) thread.setDrawer(currentState.getDrawer());
+        thread = new DrawThread(getHolder(), currentState.getDrawer());
+        thread.setRunning(true);
+        thread.start();
     }
 
     @Override
@@ -67,6 +70,10 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
+        stopDraw();
+    }
+
+    private void stopDraw() {
         boolean retry = true;
         thread.setRunning(false);
         while (retry) {

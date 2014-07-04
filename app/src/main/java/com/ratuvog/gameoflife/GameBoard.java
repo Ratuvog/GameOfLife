@@ -11,8 +11,8 @@ public class GameBoard {
     private ArrayList<ArrayList<Life>> world;
 
     public GameBoard(Size size) {
-        rowCount = size.h/k;
-        columnCount = size.w/k;
+        rowCount = size.w/k;
+        columnCount = size.h/k;
         clear();
     }
 

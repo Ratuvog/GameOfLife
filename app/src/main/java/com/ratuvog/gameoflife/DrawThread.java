@@ -27,7 +27,7 @@ public class DrawThread extends Thread {
             try {
                 canvas = surfaceHolder.lockCanvas(null);
                 if (canvas == null) continue;
-                drawer.draw(canvas);
+                if (drawer != null) drawer.draw(canvas);
             } finally {
                 if (canvas != null) {
                     surfaceHolder.unlockCanvasAndPost(canvas);

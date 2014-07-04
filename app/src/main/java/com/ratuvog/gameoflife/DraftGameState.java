@@ -13,7 +13,7 @@ public class DraftGameState extends GameState {
     public GameState moveToState(int state) {
         switch (state) {
             case PLAY: return new PlayGameState(board);
-            default: return this;
+            default: return new DraftGameState(board);
         }
     }
 

@@ -19,5 +19,6 @@ public class GameState {
     }
 
     public void onTouch(float x, float y) {
+
     }
 }

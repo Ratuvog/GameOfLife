@@ -44,18 +44,28 @@ public class GameBoard {
     }
 
     public void gameProcess() {
-        ArrayList<ArrayList<Life>> newWorld = (ArrayList<ArrayList<Life>>)world.clone();
-        if (newWorld == null)
-            return;
+        ArrayList<ArrayList<Life>> newWorld = new ArrayList<ArrayList<Life>>();
+        for (int i = 0; i < rowCount; ++i) {
+            ArrayList<Life> row = new ArrayList<Life>();
+            for (int j = 0; j < columnCount; ++j) {
+                row.add(new Life(true));
+            }
+            newWorld.add(row);
+        }
+
         boolean hasChanges = false;
         for (int i = 0; i < rowCount; ++i) {
             for (int j = 0; j < columnCount; ++j) {
                 int alive = aliveNeighbourCount(i, j);
-                if (world.get(i).get(j).dead)
+                if (world.get(i).get(j).dead) {
                     newWorld.get(i).get(j).setDead(alive != 3);
-                else
+                    hasChanges |= (alive == 3);
+                }
+                else {
                     newWorld.get(i).get(j).setDead(alive < 2 || alive > 3);
-                hasChanges |= world.get(i).get(j).changed();
+                    hasChanges |= (alive < 2 || alive > 3);
+                }
+
             }
         }
         world = newWorld;

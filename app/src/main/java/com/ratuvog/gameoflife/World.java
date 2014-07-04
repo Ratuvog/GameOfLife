@@ -43,7 +43,7 @@ public class World extends SurfaceView implements SurfaceHolder.Callback {
         stopDraw();
 
         currentState = currentState.moveToState(state);
-        Toast.makeText(getContext(), currentState.message(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), currentState.message(), Toast.LENGTH_SHORT).show();
 
         thread = new DrawThread(getHolder(), currentState.getDrawer());
         thread.setRunning(true);

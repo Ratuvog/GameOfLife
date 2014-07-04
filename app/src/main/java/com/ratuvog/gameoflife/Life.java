@@ -1,7 +1,7 @@
 package com.ratuvog.gameoflife;
 
 public class Life {
-    public static final int LIFE_SIZE = 30;
+    public static final int LIFE_SIZE = 40;
 
     public int color;
     public boolean dead;

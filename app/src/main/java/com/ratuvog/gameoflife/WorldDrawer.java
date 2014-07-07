@@ -11,8 +11,6 @@ import java.util.Timer;
 
 public class WorldDrawer extends DraftWorldDrawer {
 
-    private int frame = 1;
-
     public WorldDrawer(GameBoard board)
     {
         super(board);

@@ -10,6 +10,7 @@ public class GameBoard {
     private int columnCount;
     private ArrayList<ArrayList<Life>> world;
     private int score = 0;
+    private int aliveCount = 0;
 
     public GameBoard(Size size) {
         rowCount = size.w/k;
@@ -53,24 +54,29 @@ public class GameBoard {
             newWorld.add(row);
         }
 
-        boolean hasChanges = false;
+        int whoAliveCount = 0;
         for (int i = 0; i < rowCount; ++i) {
             for (int j = 0; j < columnCount; ++j) {
                 int alive = aliveNeighbourCount(i, j);
-                if (world.get(i).get(j).dead) {
-                    newWorld.get(i).get(j).setDead(alive != 3);
-                    hasChanges |= (alive == 3);
+                boolean isDead = world.get(i).get(j).dead;
+                if (isDead && alive == 3) {
+                    newWorld.get(i).get(j).setDead(false);
+                    whoAliveCount++;
                 }
-                else {
-                    newWorld.get(i).get(j).setDead(alive < 2 || alive > 3);
-                    hasChanges |= (alive < 2 || alive > 3);
+                else if (!isDead) {
+                    if (alive < 2 || alive > 3)
+                        newWorld.get(i).get(j).setDead(true);
+                    else
+                        whoAliveCount++;
                 }
 
             }
         }
         world = newWorld;
-        if (hasChanges)
+        if (whoAliveCount != aliveCount) {
             score++;
+            aliveCount = whoAliveCount;
+        }
     }
 
     private int aliveNeighbourCount(int i, int j) {
@@ -86,7 +92,6 @@ public class GameBoard {
         dir.add(new Pair<Integer,Integer>(-1, -1));
 
         for(Pair<Integer,Integer> d : dir) {
-
             if (!get(d.first + i, d.second + j).dead)
                 count++;
         }

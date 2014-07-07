@@ -58,16 +58,13 @@ public class GameBoard {
         for (int i = 0; i < rowCount; ++i) {
             for (int j = 0; j < columnCount; ++j) {
                 int alive = aliveNeighbourCount(i, j);
-                boolean isDead = world.get(i).get(j).dead;
-                if (isDead && alive == 3) {
-                    newWorld.get(i).get(j).setDead(false);
-                    whoAliveCount++;
+                if (world.get(i).get(j).dead) {
+                    newWorld.get(i).get(j).setDead(alive != 3);
+                    if (alive == 3) whoAliveCount++;
                 }
-                else if (!isDead) {
-                    if (alive < 2 || alive > 3)
-                        newWorld.get(i).get(j).setDead(true);
-                    else
-                        whoAliveCount++;
+                else {
+                        newWorld.get(i).get(j).setDead(alive < 2 || alive > 3);
+                    if (alive >= 2 && alive <= 3) whoAliveCount++;
                 }
 
             }
